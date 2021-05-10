@@ -15,12 +15,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Backend\\": "src/"
+            "backend\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Backend\\Tests\\": "tests/"
+            "backend\\Tests\\": "tests/"
         }
     },
     "authors": [
