@@ -19,6 +19,11 @@ From within your project root run
 composer install
 ```
 
+To run the backend Salary File Generator 
+```sh
+php index.php
+```
+
 
 
 To run the test use the command below 
