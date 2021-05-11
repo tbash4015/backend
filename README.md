@@ -19,9 +19,9 @@ From within your project root run
 composer install
 ```
 
-To run the backend Salary File Generator 
+To run the backend Salary File Generator use the command keyword 'salary'
 ```sh
-php index.php
+php demo.php salary
 ```
 
 
