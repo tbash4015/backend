@@ -15,7 +15,11 @@ class SalaryCommand extends Command
             ->setDescription('Save CSV file with payment dates for the next 12 months')
             ->setHelp('This command demonstrates the output to CSV using a CLI based application');
     }
-
+    
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $table = new Table($output);
@@ -23,6 +27,7 @@ class SalaryCommand extends Command
         //get current date and store in a variable orgDate
         $orgDate = date('m/d/Y h:i:s a', time());
 
+        //array to store records of dates. each row in the array represents a period of a month
         $rows = [];
 
         //initialise variables with the current period information
