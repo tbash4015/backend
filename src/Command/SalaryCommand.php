@@ -27,9 +27,6 @@ class SalaryCommand extends Command
 
         //initialise variables with the current period information
         //to store under each column of the array
-        // $periodDate = date("M/y", strtotime($orgDate));
-        // $basicPayDate = date("Y-m-d", strtotime($orgDate));
-        // $bonusPayDate = date("Y-m-10", strtotime($orgDate));
 
         //loop through 12 periods, adding a record(row) for each month to the array
         $date = new \DateTime($orgDate);
@@ -43,27 +40,45 @@ class SalaryCommand extends Command
             $periodDate = $date->format('M/y');
             $basicPayDate = $date->format('Y-m-d');
             $bonusPayDate = $date->format("Y-m-10");
+
+            //calculate basic salary date
             if(date('N', strtotime($basicPayDate)) == 6)
             {
                 //Last day of month is Saturday
-                echo "Saturday for row" . $rowIndex . "\n";
+                //adjust last day of the month to be last working day, i.e. Friday (1 day before Saturday)
                 $date->modify('-1 day');
-                $basicPayDate = $date->format('Y-m-d');
             }
             elseif(date('N', strtotime($basicPayDate)) == 7)
             {
                 //Last day of month is Sunday
-                echo "Sunday for row" . $rowIndex . "\n";
+                //adjust last day of the month to be last working day, i.e. Friday (2 days before Sunday)
                 $date->modify('-2 day');
-                $basicPayDate = $date->format('Y-m-d');
             }
             else
             {
-                //Last day of month is weekday
-                echo "weekday for row" . $rowIndex . "\n";
-                $basicPayDate = $date->format('Y-m-d');
+                //Last day of month is weekday :. no adjustment to last working day
             }
-            $bonusPayDate = $date->format("Y-m-10");
+            $basicPayDate = $date->format('Y-m-d');
+
+            //calculate bonus pay date
+            if(date('N', strtotime($bonusPayDate)) == 6)
+            {
+                //10th day of month is Saturday
+                //adjust bonus day of the month to be Monday 12th (i.e. 2 days after Saturday 10th of the month)
+                $bonusPayDate = $date->format('Y-m-12');
+            }
+            elseif(date('N', strtotime($bonusPayDate)) == 7)
+            {
+                //Last day of month is Sunday
+                //adjust bonus day of the month to be Monday 11th (i.e. 1 day after Sunday 10th of the month)
+                $bonusPayDate = $date->format('Y-m-11');
+            }
+            else
+            {
+                //Bonus day being the 10th of the month is a weekday :. no adjustment to bonus payment day
+                $bonusPayDate = $date->format('Y-m-10');
+            }
+
             $rows[$rowIndex] = [$periodDate, $basicPayDate, $bonusPayDate];
             //increment 1 month to the date object using '1' parameter, and adjust date object to the last day
             $date->modify('last day of 1 month');
